@@ -7,12 +7,19 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set autoindent
+filetype indent on
 
 " show matching brackets/parens
-set showmatch
 syntax on
+set showmatch
+set hlsearch
 set nowrap
 set cursorline
+
+" KEYBINDS
+inoremap jk <esc>
+let mapleader = ","
+nnoremap <leader><space> :noh<cr>
 
 " PLUG
 call plug#begin(stdpath('data') . '/plugged')

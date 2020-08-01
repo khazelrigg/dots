@@ -1,0 +1,72 @@
+/**
+ * ROFI Color theme
+ * User: Rokit
+*/
+
+* {
+  base-bg: #222;
+  base-color: #c2c2b0;
+  selected-bg: #6688aa;
+  selected-color: #000000;
+  border-color: #00000066;
+  transparent: #00000000;
+  text-color: #c2c2b0;
+  font: "Cozette 10";
+}
+
+#window {
+  anchor: north;
+  location: north;
+  width: 100%;
+  background-color: @base-bg;
+  margin: 0px 0px 0px 0px;
+  children: [ horibox ];
+}
+
+#horibox {
+  background-color: @transparent;
+  orientation: horizontal;
+  children: [ prompt, textbox-prompt-colon, entry, listview ];
+}
+
+#prompt {
+  text-color: @selected-color;
+  padding: 0.7em 0px 0.7em 10px;
+  background-color: @transparent;
+}
+
+#textbox-prompt-colon  {
+  expand: false;
+  str: ":";
+  padding: 0.7em 10px 0.7em 0px;
+  text-color: @selected-color;
+  background-color: @transparent;
+}
+
+#entry {
+  padding: 0.7em;
+  text-color: @selected-color;
+  background-color: #d3d3d3;
+  expand: false;
+  width: 10em;
+}
+
+#listview {
+  background-color: @transparent;
+  layout: horizontal;
+  spacing: 5px;
+  lines: 10;
+}
+
+#element {
+  background-color: #181818;
+  padding: 0.7em;
+  border: 1px 1px 1px 1px;
+}
+
+#element selected {
+  border: 0px 1px;
+  text-color: @selected-color;
+  background-color: @selected-bg;
+}
+
