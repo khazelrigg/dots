@@ -33,6 +33,18 @@ theme.border_normal = xcolors.color8
 theme.border_focus  = xcolors.color4
 theme.border_marked = "#91231c"
 
+theme.widget_hash1 = themes_path .. "/icons/hash1.png"
+theme.widget_hash2 = themes_path.. "/icons/hash1.png"
+theme.widget_hash3 = themes_path.. "/icons/hash3.png"
+theme.widget_grey = themes_path .. "/icons/grey.png"
+theme.widget_black = themes_path .. "/icons/black.png"
+
+theme.widget_cpu = themes_path .. "/icons/cpu.png"
+theme.widget_mem = themes_path .. "/icons/mem.png"
+theme.widget_hdd = themes_path .. "/icons/hdd.png"
+theme.widget_net = themes_path .. "/icons/net.png"
+theme.widget_net_wired = themes_path .. "/icons/net_wired.png"
+theme.widget_temp = themes_path .. "/icons/temp.png"
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
@@ -47,6 +59,7 @@ theme.border_marked = "#91231c"
 --theme.taglist_bg_focus = "#ff0000"
 
 -- Generate taglist squares:
+--[[
 local taglist_square_size = dpi(4)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
     taglist_square_size, theme.fg_normal
@@ -54,6 +67,8 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
     taglist_square_size, theme.fg_normal
 )
+]]--
+theme.tasklist_disable_icon = true
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -100,27 +115,27 @@ theme.titlebar_maximized_button_focus_inactive  = themes_path.."/titlebar/maximi
 theme.titlebar_maximized_button_normal_active = themes_path.."/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = themes_path.."/titlebar/maximized_focus_active.png"
 
-gears.wallpaper.tiled(themes_path .. "/hashbg.png", s)
+--gears.wallpaper.tiled(themes_path .. "/hashbg.png", s)
 --gears.wallpaper.set("#ff0000")
--- theme.wallpaper = themes_path.."default/hashbg.png"
+theme.wallpaper = themes_path.."/hashbg.png"
 
 -- You can use your own layout icons like this:
-theme.layout_fairh = themes_path.."/layouts/fairhw.png"
-theme.layout_fairv = themes_path.."/layouts/fairvw.png"
-theme.layout_floating  = themes_path.."/layouts/floatingw.png"
-theme.layout_magnifier = themes_path.."/layouts/magnifierw.png"
-theme.layout_max = themes_path.."/layouts/maxw.png"
-theme.layout_fullscreen = themes_path.."/layouts/fullscreenw.png"
-theme.layout_tilebottom = themes_path.."/layouts/tilebottomw.png"
-theme.layout_tileleft   = themes_path.."/layouts/tileleftw.png"
-theme.layout_tile = themes_path.."/layouts/tilew.png"
-theme.layout_tiletop = themes_path.."/layouts/tiletopw.png"
-theme.layout_spiral  = themes_path.."/layouts/spiralw.png"
-theme.layout_dwindle = themes_path.."/layouts/dwindlew.png"
-theme.layout_cornernw = themes_path.."/layouts/cornernww.png"
-theme.layout_cornerne = themes_path.."/layouts/cornernew.png"
-theme.layout_cornersw = themes_path.."/layouts/cornersww.png"
-theme.layout_cornerse = themes_path.."/layouts/cornersew.png"
+theme.layout_fairh = themes_path.."/layouts/fairh.png"
+theme.layout_fairv = themes_path.."/layouts/fairv.png"
+theme.layout_floating  = themes_path.."/layouts/floating.png"
+theme.layout_magnifier = themes_path.."/layouts/magnifier.png"
+theme.layout_max = themes_path.."/layouts/max.png"
+theme.layout_fullscreen = themes_path.."/layouts/fullscreen.png"
+theme.layout_tilebottom = themes_path.."/layouts/tilebottom.png"
+theme.layout_tileleft   = themes_path.."/layouts/tileleft.png"
+theme.layout_tile = themes_path.."/layouts/tile.png"
+theme.layout_tiletop = themes_path.."/layouts/tiletop.png"
+theme.layout_spiral  = themes_path.."/layouts/spiral.png"
+theme.layout_dwindle = themes_path.."/layouts/dwindle.png"
+theme.layout_cornernw = themes_path.."/layouts/cornernw.png"
+theme.layout_cornerne = themes_path.."/layouts/cornerne.png"
+theme.layout_cornersw = themes_path.."/layouts/cornersw.png"
+theme.layout_cornerse = themes_path.."/layouts/cornerse.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(

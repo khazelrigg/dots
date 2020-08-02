@@ -99,10 +99,10 @@ theme.titlebar_maximized_button_focus_inactive  = themes_path.."/titlebar/maximi
 theme.titlebar_maximized_button_normal_active = themes_path.."/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = themes_path.."/titlebar/maximized_focus_active.png"
 
--- theme.wallpaper = "/home/kmrn/usr/img/walls/hash.png"
+theme.wallpaper = themes_path .. "/hashbg.png"
 -- theme.wallpaper = "/home/kmrn/usr/img/walls/coastalbreeze.png"
 -- gears.wallpaper.centered("/home/kmrn/usr/img/walls/coastalbreeze.png", s)
-gears.wallpaper.tiled("/home/kmrn/usr/img/walls/hash.png", s)
+-- gears.wallpaper.tiled("/home/kmrn/usr/img/walls/hash.png", s)
 -- gears.wallpaper.set(xcolors.background)
 
 -- You can use your own layout icons like this:

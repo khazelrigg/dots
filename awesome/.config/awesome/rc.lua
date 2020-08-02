@@ -10,12 +10,14 @@ local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
+local lain = require("lain")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-local menubar = require("menubar")
+--local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -80,7 +82,7 @@ awful.layout.layouts = {
     -- awful.layout.suit.spiral.dwindle,
     awful.layout.suit.floating,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
+    --awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
@@ -108,15 +110,15 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
 -- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+--menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+-- mykeyboardlayout = awful.widget.keyboardlayout()
 
--- {{{ Wibar
+-- {{{ Wibar / Wibox
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -173,6 +175,113 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+-- SEPARATORS
+space = wibox.widget.textbox('   ')
+black = wibox.widget.imagebox(beautiful.widget_black)
+hash1 = wibox.widget.imagebox(beautiful.widget_hash1)
+hash2 = wibox.widget.imagebox(beautiful.widget_hash2)
+hash3 = wibox.widget.imagebox(beautiful.widget_hash3)
+grey = wibox.widget.imagebox(beautiful.widget_grey)
+
+-- WIBAR WIDGETS
+markup = lain.util.markup
+mytextclock = wibox.widget.textclock(markup("#d3d3d3", clock_format))
+systray = wibox.widget.systray()
+
+-- CPU WIDGET
+cpuIcon = wibox.widget.background(wibox.widget.imagebox(beautiful.widget_cpu), "#181818")
+cpu = lain.widget.cpu {
+  settings = function()
+    widget:set_text("CPU: " .. cpu_now.usage .. "% ")
+  end
+}
+
+-- MEMORY WIDGET
+memIcon = wibox.widget.background(wibox.widget.imagebox(beautiful.widget_mem), "#181818")
+mem = lain.widget.mem {
+  settings = function() 
+    widget:set_text("MEM: " .. mem_now.perc .. "% ")
+  end
+}
+
+-- PULSE VOLUME WIDGET
+local volume = lain.widget.pulse {
+    settings = function()
+        vlevel = "VOL: " .. volume_now.right .. "% " -- .. volume_now.device
+        if volume_now.muted == "yes" then
+            vlevel = vlevel .. " M"
+        end
+        widget:set_markup(lain.util.markup("#d3d3d3", vlevel))
+    end
+}
+
+volume.widget:buttons(awful.util.table.join(
+    awful.button({}, 1, function() -- left click
+        awful.spawn("pavucontrol")
+    end),
+    awful.button({}, 2, function() -- middle click
+        os.execute(string.format("pactl set-sink-volume %s 100%%", volume.device))
+        volume.update()
+    end),
+    awful.button({}, 3, function() -- right click
+        os.execute(string.format("pactl set-sink-mute %s toggle", volume.device))
+        volume.update()
+    end),
+    awful.button({}, 4, function() -- scroll up
+        os.execute(string.format("pactl set-sink-volume %s +1%%", volume.device))
+        volume.update()
+    end),
+    awful.button({}, 5, function() -- scroll down
+        os.execute(string.format("pactl set-sink-volume %s -1%%", volume.device))
+        volume.update()
+    end)
+))
+
+-- WIFI WIDGET
+local wifi_icon = wibox.widget.imagebox(beautiful.widget_net)
+local eth_icon = wibox.widget.imagebox(beautiful.widget_net_wired)
+local mynetdown = wibox.widget.textbox()
+
+local net = lain.widget.net {
+    notify = "off",
+    wifi_state = "on",
+    eth_state = "on",
+    settings = function()
+        local eth0 = net_now.devices.eth0
+        if eth0 then
+            if eth0.ethernet then
+                eth_icon:set_image(ethernet_icon_filename)
+            else
+                eth_icon:set_image()
+            end
+        end
+
+        local wlan0 = net_now.devices.wlan0
+        if wlan0 then
+            if wlan0.wifi then
+                local signal = wlan0.signal
+                local netText = net_now.received .. " MB "
+                if signal < -83 then
+                  mynetdown:set_markup(lain.util.markup("#aa4450", netText))
+                  -- wifi_icon:set_image(wifi_weak_filename)
+                elseif signal < -70 then
+                  mynetdown:set_markup(lain.util.markup("#ff9800", netText))
+                  -- wifi_icon:set_image(wifi_mid_filename)
+                elseif signal < -53 then
+                  mynetdown:set_markup(lain.util.markup("#719611", netText))
+                  -- wifi_icon:set_image(wifi_good_filename)
+                elseif signal >= -53 then
+                  mynetdown:set_markup(lain.util.markup("#b1d631", netText))
+                  -- wifi_icon:set_image(wifi_great_filename)
+                end
+            else
+                mynetdown:set_markup(lain.util.markup("#181818", "OFF"))
+                --wifi_icon:set_image()
+            end
+        end
+    end
+}
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -190,6 +299,7 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 3, function () awful.layout.inc(-1) end),
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
@@ -203,11 +313,67 @@ awful.screen.connect_for_each_screen(function(s)
         filter  = awful.widget.tasklist.filter.currenttags,
         buttons = tasklist_buttons
     }
+    
+    naughty.notify({ text = tostring(s.index) })
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = bar_position, screen = s, height = bar_height})
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(hash3)
+    left_layout:add(hash3)
+    left_layout:add(black)
+    left_layout:add(s.mytaglist)
+    left_layout:add(black)
+    left_layout:add(hash1)
+    left_layout:add(hash1)
+    left_layout:add(grey)
+    left_layout:add(s.mylayoutbox)
+    left_layout:add(grey)
+    left_layout:add(hash2)
+    left_layout:add(hash2)
+  
+    local middle_layout = wibox.layout.fixed.horizontal()
+    middle_layout:add(hash2)
+    middle_layout:add(cpuIcon)
+    middle_layout:add(cpu.widget)
+    middle_layout:add(hash1)
+    middle_layout:add(hash1)
+    middle_layout:add(memIcon)
+    middle_layout:add(mem.widget)
+    middle_layout:add(grey)
+    middle_layout:add(hash1)
+    middle_layout:add(hash1)
 
+    local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(wifi_icon)
+    right_layout:add(mynetdown)
+    right_layout:add(space)
+    right_layout:add(volume.widget)
+
+    if s.index == 1 then
+      right_layout:add(hash2)
+      right_layout:add(hash2)
+      right_layout:add(grey)
+      right_layout:add(systray)
+      right_layout:add(grey)
+    end
+    right_layout:add(hash1)
+    right_layout:add(hash1)
+    right_layout:add(black)
+    right_layout:add(mytextclock)
+    right_layout:add(black)
+    right_layout:add(hash3)
+    right_layout:add(hash3)
+
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(middle_layout)
+    layout:set_right(right_layout)
+
+    s.mywibox:set_widget(layout)
+    --[[
     -- Add widgets to the wibox
+    --
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
@@ -216,15 +382,20 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+        {
+          layout = wibox.layout.fixed.horizontal,
+          s.mytasklist, -- Middle widget
+          cpu.widget,
+        },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
-            wibox.widget.systray(),
+            -- mykeyboardlayout,
+            systray,
             mytextclock,
             s.mylayoutbox,
         },
     }
+    ]]--
 end)
 -- }}}
 
@@ -505,6 +676,8 @@ awful.rules.rules = {
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
     },
+    { rule = { class = "[Ss]potify" },
+      properties = { screen = 1, tag = "9" } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
