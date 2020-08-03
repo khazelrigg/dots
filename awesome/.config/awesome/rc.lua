@@ -510,7 +510,21 @@ globalkeys = gears.table.join(
               {description = "show the menubar", group = "launcher"})
               ]]--
     awful.key({ modkey }, "p", function() awful.util.spawn("rofi -show combi") end,
-              {description = "Show rofi in combi mode", group = "launcher"})
+              {description = "Show rofi in combi mode", group = "launcher"}),
+
+    -- Multimedia keys 
+    awful.key({ }, "XF86AudioNext", function() awful.util.spawn("playerctl next") end,
+              {description = "Play next audio", group = "media"}),
+    awful.key({ }, "XF86AudioPlay", function() awful.util.spawn("playerctl play-pause") end,
+              {description = "Toggle audio playing state", group = "media"}),
+    awful.key({ }, "XF86AudioPrev", function() awful.util.spawn("playerctl previous") end,
+              {description = "Play previous audio", group = "media"}),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("amixer set Master 5%-") end,
+              {description = "Decrease volume by 10%", group = "media"}),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("amixer set Master 5%+") end,
+              {description = "Incrase volume by 10%", group = "media"}),
+    awful.key({ }, "XF86AudioMute", function() awful.util.spawn("amixer set Master toggle") end,
+              {description = "Toggle audio mute", group = "media"})
 )
 
 clientkeys = gears.table.join(
