@@ -1,0 +1,30 @@
+colors:
+  primary:        "red"
+  secondary:      "cyan"
+  background:     "#F1F2E0"
+  foreground:     "#695F6C"
+  cursor:         "#695F6C"
+  black:
+    normal:       "#695F6C"
+    bold:         "#A5B9C4"
+  red:
+    normal:       "#A75D4d"
+    bold:         "#A75D4d"
+  green:
+    normal:       "#A4D485"
+    bold:         "#A4D485"
+  yellow:
+    normal:       "#FDD485"
+    bold:         "#FDD485"
+  blue:
+    normal:       "#90AABE"
+    bold:         "#90AABE"
+  magenta:
+    normal:       "#B17FBC"
+    bold:         "#B17FBC"
+  cyan:
+    normal:       "#6BD6E3"
+    bold:         "#6BD6E3"
+  white:
+    normal:       "#A5B9C4"
+    bold:         "#F1F2E0"

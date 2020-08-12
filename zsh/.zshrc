@@ -1,10 +1,5 @@
-# Start configuration added by Zim install {{{
-#
-# User configuration sourced by interactive shells
-#
-
 # -----------------
-# Zsh configuration
+# KMRNS ZSH configuration
 # -----------------
 
 #
@@ -19,13 +14,13 @@ setopt HIST_IGNORE_ALL_DUPS
 #
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
-bindkey -e
+bindkey -v
 
 # Prompt for spelling correction of commands.
-#setopt CORRECT
+setopt CORRECT
 
 # Customize spelling correction prompt.
-#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 
 # Remove path separator from WORDCHARS.
 WORDCHARS=${WORDCHARS//[\/]}
@@ -144,11 +139,11 @@ source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Aliases
 # Add color
-alias grep='grep --color=auto'
-alias ip='ip -color=auto'
-alias ls='ls --color=auto'
+#alias grep='grep --color=auto'
+#alias ip='ip -color=auto'
+#alias ls='ls --color=auto'
 
-alias la='ls -a'
+#alias la='ls -a'
 
 
 # ON-DEMAND REHASH

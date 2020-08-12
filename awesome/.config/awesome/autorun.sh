@@ -10,5 +10,5 @@ function run {
 run urxvtd
 run unclutter
 run mullvad-vpn
-run spotify
+#run spotify
 run firefox
